@@ -5,7 +5,10 @@
 #ifndef CPP_ITT_CPP_ITT_H
 #define CPP_ITT_CPP_ITT_H
 
+#ifdef VTUNE_FOUND
 #include <ittnotify.h>
+#endif
+
 #include <string>
 
 namespace cpp_itt
@@ -17,11 +20,17 @@ public:
   ~task ();
 
 private:
+  task () = default;
+#ifdef VTUNE_FOUND
   task (__itt_domain *d, std::string task_name_arg);
+#endif
 
 protected:
   const std::string task_name;
+
+#ifdef VTUNE_FOUND
   __itt_domain * const p_domain = nullptr;
+#endif
 
   friend class domain;
 };
@@ -37,7 +46,10 @@ public:
 
 private:
   const std::string domain_name;
+
+#ifdef VTUNE_FOUND
   __itt_domain * const p_impl = nullptr;
+#endif
 };
 
 class thread
