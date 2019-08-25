@@ -20,3 +20,7 @@ if(ITT_LIBRARY)
     target_include_directories(cpp_itt PUBLIC ${ITT_INCLUDE_DIR})
     target_link_libraries(cpp_itt ${ITT_LIBRARY})
 endif()
+
+find_package(Threads REQUIRED)
+add_executable(cpp_itt_example examples/multi_thread_example.cpp)
+target_link_libraries(cpp_itt_example cpp_itt ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})

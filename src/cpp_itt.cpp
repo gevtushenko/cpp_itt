@@ -3,6 +3,16 @@
 namespace cpp_itt
 {
 
+quiet_region::quiet_region ()
+{
+  pause ();
+}
+
+quiet_region::~quiet_region ()
+{
+  resume ();
+}
+
 event_duration::event_duration (std::string event_name_arg)
   : event_name (move (event_name_arg))
 #ifdef VTUNE_FOUND

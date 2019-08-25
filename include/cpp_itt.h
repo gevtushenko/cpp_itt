@@ -14,6 +14,13 @@
 namespace cpp_itt
 {
 
+class quiet_region
+{
+public:
+  quiet_region ();
+  ~quiet_region ();
+};
+
 class event_duration
 {
 public:
