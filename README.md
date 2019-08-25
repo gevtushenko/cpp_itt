@@ -1,4 +1,4 @@
-# C++ Instrumentation and Tracing Technology APIs Wrapper
+# C++ VTune APIs Wrapper
 
 ## Integration
 
@@ -21,7 +21,7 @@ to the functions you want to profile. Also you can use cpp_itt in your CMake pro
 
 ```cmake
 add_subdirectory(external/cpp_itt)
-target_link_libraries(${CMAKE_PROJECT_NAME} .)
+target_link_libraries(${CMAKE_PROJECT_NAME})
 ```
 
 ## Examples
@@ -77,3 +77,5 @@ int main ()
   }
 }
 ```
+
+[![VTune example](https://raw.githubusercontent.com/senior-zero/cpp_itt/master/doc/vtune.png)]()
