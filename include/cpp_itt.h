@@ -14,6 +14,21 @@
 namespace cpp_itt
 {
 
+class event_duration
+{
+public:
+  event_duration () = delete;
+  explicit event_duration (std::string event_name_arg);
+  ~event_duration ();
+
+private:
+  const std::string event_name;
+
+#ifdef VTUNE_FOUND
+  __itt_event impl;
+#endif
+};
+
 class task
 {
 public:
@@ -82,6 +97,9 @@ thread create_thread_collector (std::string str);
  * Create domain with specified name (URI naming style is recommended)
  */
 domain create_domain (std::string domain_name);
+
+void create_event (const std::string &event_name);
+event_duration create_event_duration (std::string event_name);
 
 }
 

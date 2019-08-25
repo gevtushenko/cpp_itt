@@ -3,6 +3,24 @@
 namespace cpp_itt
 {
 
+event_duration::event_duration (std::string event_name_arg)
+  : event_name (move (event_name_arg))
+#ifdef VTUNE_FOUND
+  , impl (__itt_event_create (event_name.c_str (), event_name.size ()))
+#endif
+{
+#ifdef VTUNE_FOUND
+  __itt_event_start (impl);
+#endif
+}
+
+event_duration::~event_duration ()
+{
+#ifdef VTUNE_FOUND
+  __itt_event_end (impl);
+#endif
+}
+
 #ifdef VTUNE_FOUND
 task::task (__itt_domain *d, std::string task_name_arg)
   : task_name (move (task_name_arg))
@@ -81,6 +99,19 @@ thread create_thread_collector (std::string str)
 domain create_domain (std::string domain_name)
 {
   return domain (move (domain_name));
+}
+
+void create_event (const std::string &event_name)
+{
+#ifdef VTUNE_FOUND
+  auto event = __itt_event_create (event_name.c_str (), event_name.size ());
+  __itt_event_start (event);
+#endif
+}
+
+event_duration create_event_duration (std::string event_name)
+{
+  return event_duration (move (event_name));
 }
 
 }
