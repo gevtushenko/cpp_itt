@@ -8,9 +8,6 @@
 #include <ittnotify.h>
 #include <string>
 
-#define DISABLE_CPP_ITT \
-  #define INTEL_NO_ITTNOTIFY_API
-
 namespace cpp_itt
 {
 
@@ -18,29 +15,29 @@ class task
 {
 public:
   ~task ();
+
 private:
   task (__itt_domain *d, std::string task_name_arg);
 
 protected:
   const std::string task_name;
   __itt_domain * const p_domain = nullptr;
+
+  friend class domain;
 };
 
 class domain
 {
 public:
   domain () = delete;
-
-  void disable ();
-
-protected:
   explicit domain (std::string domain_name_arg);
+
+  task create_task (std::string task_name);
+  void disable ();
 
 private:
   const std::string domain_name;
   __itt_domain * const p_impl = nullptr;
-
-  friend class thread;
 };
 
 class thread
@@ -51,11 +48,6 @@ public:
 
   static void ignore ();
 
-  /**
-   * Create domain with specified name (URI naming style is recommended)
-   */
-  static domain create_domain (std::string domain_name);
-
 private:
   const std::string thread_name;
 };
@@ -64,15 +56,21 @@ private:
  * Pause data collecting process for entire application (not only caller thread).
  * Reduce overhead of collection.
  */
-static void pause ();
+void pause ();
 
 /**
  * Resume data collection
  */
 void resume ();
 
-thread create_thread_collector () { return {}; }
+thread create_thread_collector ();
 thread create_thread_collector (std::string str);
+
+/**
+ * Create domain with specified name (URI naming style is recommended)
+ */
+domain create_domain (std::string domain_name);
+
 }
 
 #endif // CPP_ITT_CPP_ITT_H
