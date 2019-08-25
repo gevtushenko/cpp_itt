@@ -69,10 +69,10 @@ static void pause ();
 /**
  * Resume data collection
  */
-static void resume ();
+void resume ();
 
-static thread create_thread_collector () { return {}; }
-static thread create_thread_collector (std::string str);
+thread create_thread_collector () { return {}; }
+thread create_thread_collector (std::string str);
 }
 
 #endif // CPP_ITT_CPP_ITT_H
